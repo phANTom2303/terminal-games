@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+body {
+    background-color: black;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+    height: 100%;
+    margin: 0;
+}
+
+
+.header {
+    padding: 30px;
+    background-color: black;
+    color: #8AE234;
+    font-size: xxx-large;
+    text-align: center;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.game-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px;
+    gap: 20px;
+}
+
+
+
+.card {
+    display: flex;
+    border: 2px solid #A8C3EF;
+    border-radius: 10px;
+    background-color: black;
+    margin: 20px auto;
+    
+    width: 600px;
+    height: auto;
+
+}
+
+img {
+    width: 200px;
+    height: auto;
+    margin: 20px;
+}
+
+.card-contents {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    color: white;
+}
+
+.card-header {
+    font-size: x-large;
+    color: white;
+    border-bottom: 1px solid grey;
+}
+
+.card-description {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.card-buttons {
+    display: flex;
+    margin-top: auto;
+    gap: 10px;
+}
+
+
+
+.buttons {
+    text-decoration: none;
+    color: #F99B15;
+    border: 3px solid #F99B15;
+    background-color: black;
+
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.footer {
+    margin-top: 0;
+    text-align: center;
+    padding: 15px;
+    color: grey;
+    /* position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%; */
+}
+
+.footer a {
+
+    text-decoration: none;
+    color: grey;
+}
+
+/* Hover Effects :  */
+
+
+.card:hover {
+    border: 2px solid #38DEC7;
+}
+
+.buttons:hover {
+    color: #EF476F;
+    border: 3px solid #EF476F;
+}
+
+
+/* Mobile Layout */
+
+
+@media only screen and (max-width: 650px) {
+    .card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    /* CSS styles for screens with width less than or equal to the specified value */
+}
