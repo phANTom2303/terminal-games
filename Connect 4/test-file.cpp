@@ -48,9 +48,10 @@ int placePlayer(int colNum, int player)
     return final_pos;
 }
 
-int row_freq(int row, int col)
+int row_freq(int row, int col, int player)
 {
-    int player = board[row][col];
+    // int player = board[row][col];
+    col = col -1;
     int count = 1;
     int right_count = 0;
     cout << "Player = " << player << endl;
@@ -69,6 +70,7 @@ int row_freq(int row, int col)
         if (board[row][i] != player)
             break;
         left_count += 1;
+        cout << "Current place = " << board[row][i] << " lc = " << left_count << endl;
     }
     cout << "Count to the left = " << left_count << endl;
     return count + right_count + left_count;
@@ -122,7 +124,7 @@ int main()
         }
 
         render();
-        int rc = row_freq(place_status,input);
+        int rc = row_freq(place_status,input,turn);
         cout << "Row Freq = " <<rc << endl;
         turn = turn * -1;
         i++;

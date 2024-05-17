@@ -64,7 +64,7 @@ int row_freq(int row, int col)
             break;
         count += 1;
     }
-    cout << "Row =" << count << endl;
+    // cout << "Row =" << count << endl;
     return count;
 }
 
@@ -89,7 +89,7 @@ int col_freq(int row, int col)
             break;
         count += 1;
     }
-    cout << "column =" << count << endl;
+    // cout << "column =" << count << endl;
     return count;
 }
 
@@ -118,7 +118,7 @@ int left_diagonal_freq(int row, int col)
         i--;
         j--;
     }
-    cout << "left diag =" << count << endl;
+    // cout << "left diag =" << count << endl;
     return count;
 }
 
@@ -146,13 +146,13 @@ int right_diagonal_freq(int row, int col)
         i--;
         j++;
     }
-    cout << "right diag" << count << endl;
+    // cout << "right diag" << count << endl;
     return count;
 }
 
 bool checkWin(int row, int col)
 {
-    int player = board[row][col];
+    col = col - 1;//since user input is 1 based indexing, we need to subtract 1
     int row_count = row_freq(row, col);
     int col_count = col_freq(row, col);
     int left_diag_count = left_diagonal_freq(row, col);
