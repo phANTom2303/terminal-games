@@ -62,7 +62,7 @@ void place_snake()
 
 void render()
 {
-    place_snake();
+    
     for (int i = 0; i < 15; i++)
     {
         for (int j = 0; j < 20; j++)
@@ -83,6 +83,8 @@ void render()
                     cout << "T";
                 if(e == 1)
                     cout << "#";
+                if(e == 999)
+                    cout << "0";
         
             }
             else
@@ -96,30 +98,46 @@ void render()
 bool move_snake(char move)
 {
     //'U' = up, 'D' = down , 'L' = left, 'R' = right
-    int new_head_i = snake[0]/10;
-    int new_head_j = snake[0]%10;
+    int newhead = snake[0];
     switch (move)
     {
     case 'U':
-        new_head_i -= 1;
+        newhead -= 10;
         break;
 
     case 'D':
-        new_head_i += 1;
+        newhead += 10;
         break;
 
     case 'L':
-        new_head_j -= 1;
+        newhead -= 1;
         break;
 
     case 'R':
-        new_head_j += 1;
+        newhead += 1;
         break;
 
     default:
         return false;
     }
+
+    int new_head_i = newhead/10;
+    int new_head_j = newhead%10;
     
+    if(board[new_head_i][new_head_j] == -1)
+    {
+        cout << "Oops, You collided. Game Over" <<  endl;
+        render();
+        return false;
+    }
+    
+    bool grow_flag = false;
+    if(board[new_head_i][new_head_j] == 999)
+    {
+        snake.push_back(0);
+        grow_flag = true;
+    }
+
     int tail = snake[snake.size() - 1];
     int tail_i = tail / 10;
     int tail_j = tail % 10;
@@ -129,61 +147,46 @@ bool move_snake(char move)
     for(int i = snake.size() - 1; i > 0; i --)
         snake[i] = snake[i - 1];
     snake[0] = (new_head_i*10) + new_head_j;
+    place_snake();
+
+    if(grow_flag)
+        place_berry();
 
     
     return true;
 }
 
-// bool move_snake(char move)
-// {
-//     //'U' = up, 'D' = down , 'L' = left, 'R' = right
-//     int new_head_i = head_i;
-//     int new_head_j = head_j;
-//     switch (move)
-//     {
-//     case 'U':
-//         new_head_i -= 1;
-//         break;
 
-//     case 'D':
-//         new_head_i += 1;
-//         break;
+ //'U' = up, 'D' = down , 'L' = left, 'R' = right
+    // int new_head_i = snake[0]/10;
+    // int new_head_j = snake[0]%10;
+    // switch (move)
+    // {
+    // case 'U':
+    //     new_head_i -= 1;
+    //     break;
 
-//     case 'L':
-//         new_head_j -= 1;
-//         break;
+    // case 'D':
+    //     new_head_i += 1;
+    //     break;
 
-//     case 'R':
-//         new_head_j += 1;
-//         break;
+    // case 'L':
+    //     new_head_j -= 1;
+    //     break;
 
-//     default:
-//         return false;
-//     }
+    // case 'R':
+    //     new_head_j += 1;
+    //     break;
 
-//     board[new_head_i][new_head_j] = (head_i * 10) + head_j;
-
-//     int iterator = board[head_i][head_j];
-//     while (true)
-//     {
-//         int pos_i = iterator / 10;
-//         int pos_j = iterator % 10;
-//         if (board[pos_i][pos_j] == -7)
-//         {
-//             board[pos_i][pos_j] = 0;
-//             break;
-//         }
-//         else
-//         {
-//             iterator = board[pos_i][pos_j];
-//         }
-//     }
-//     render();
-//     return true;
-// }
+    // default:
+    //     return false;
+    // }
+    
 
 int main()
 {
+    place_snake();
+    place_berry();
     render();
     while(true)
     {
