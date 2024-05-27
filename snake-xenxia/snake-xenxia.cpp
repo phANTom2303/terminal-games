@@ -88,6 +88,7 @@ void render()
         }
         cout << endl;
     }
+    cout << "Score = " << (snake.size() - 3) << endl;
     cout << endl;
 }
 
