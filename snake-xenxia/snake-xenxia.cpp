@@ -71,6 +71,47 @@ void render()
     }
 }
 
+bool move_snake(char move)
+{
+    //'U' = up, 'D' = down , 'L' = left, 'R' = right
+    int new_head_i = snake[0]/10;
+    int new_head_j = snake[0]%10;
+    switch (move)
+    {
+    case 'U':
+        new_head_i -= 1;
+        break;
+
+    case 'D':
+        new_head_i += 1;
+        break;
+
+    case 'L':
+        new_head_j -= 1;
+        break;
+
+    case 'R':
+        new_head_j += 1;
+        break;
+
+    default:
+        return false;
+    }
+    
+    int tail = snake[snake.size() - 1];
+    int tail_i = tail / 10;
+    int tail_j = tail % 10;
+    board[tail_i][tail_j] = 0;
+
+    
+    for(int i = snake.size() - 1; i > 0; i --)
+        snake[i] = snake[i - 1];
+    snake[0] = (new_head_i*10) + new_head_j;
+
+    
+    return true;
+}
+
 // bool move_snake(char move)
 // {
 //     //'U' = up, 'D' = down , 'L' = left, 'R' = right
@@ -122,5 +163,15 @@ void render()
 int main()
 {
     render();
-    return 0;
+    while(true)
+    {
+        char input;
+        cout << "Enter : ";
+        cin >> input;
+        bool status = move_snake(input);
+        if(status)
+            render();
+        else
+            break;
+    }
 }
