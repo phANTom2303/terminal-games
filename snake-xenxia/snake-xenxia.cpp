@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 int board[15][20] = {{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                      {-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1},
@@ -16,47 +17,30 @@ int board[15][20] = {{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
                      {-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1},
                      {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}};
 
-int head_i = 3;
-int head_j = 4;
+vector<int> snake = {33, 32, 31};
 
-bool move_snake(char move)
+void place_snake()
 {
-    //'U' = up, 'D' = down , 'L' = left, 'R' = right
-    int new_head_i = head_i;
-    int new_head_j = head_j;
-    switch (move)
+    int head_i = snake[0]/10;
+    int head_j = snake[0]%10;
+    board[head_i][head_j] = 99;
+
+    for(int i = 1; i < snake.size() - 1; i ++)
     {
-    case 'U':
-        new_head_i -= 1;
-        break;
-
-    case 'D':
-        new_head_i += 1;
-        break;
-
-    case 'L':
-        new_head_j -= 1;
-        break;
-
-    case 'R':
-        new_head_j += 1;
-        break;
-
-    default:
-        return false;
+        int piece_i = snake[i]/10;
+        int piece_j = snake[i]%10;
+        board[piece_i][piece_j] = 1;
     }
 
-    int iterator = board[head_i][head_j];
-    while (iterator > 0)
-    {
-        int pos_i = iterator / 10;
-        int pos_j = iterator % 10;
-        
-    }
+    int tail = snake[snake.size() - 1];
+    int tail_i = tail / 10;
+    int tail_j = tail % 10;
+    board[tail_i][tail_j] = -99;
 }
 
 void render()
 {
+    place_snake();
     for (int i = 0; i < 15; i++)
     {
         for (int j = 0; j < 20; j++)
@@ -69,6 +53,16 @@ void render()
                 else
                     cout << "|";
             }
+            else if (e  != 0 && e != -1)
+            {
+                if(e == 99)
+                    cout << "H";
+                if(e == -99)
+                    cout << "T";
+                if(e == 1)
+                    cout << "#";
+        
+            }
             else
                 cout << ".";
             cout << " ";
@@ -76,6 +70,55 @@ void render()
         cout << endl;
     }
 }
+
+// bool move_snake(char move)
+// {
+//     //'U' = up, 'D' = down , 'L' = left, 'R' = right
+//     int new_head_i = head_i;
+//     int new_head_j = head_j;
+//     switch (move)
+//     {
+//     case 'U':
+//         new_head_i -= 1;
+//         break;
+
+//     case 'D':
+//         new_head_i += 1;
+//         break;
+
+//     case 'L':
+//         new_head_j -= 1;
+//         break;
+
+//     case 'R':
+//         new_head_j += 1;
+//         break;
+
+//     default:
+//         return false;
+//     }
+
+//     board[new_head_i][new_head_j] = (head_i * 10) + head_j;
+
+//     int iterator = board[head_i][head_j];
+//     while (true)
+//     {
+//         int pos_i = iterator / 10;
+//         int pos_j = iterator % 10;
+//         if (board[pos_i][pos_j] == -7)
+//         {
+//             board[pos_i][pos_j] = 0;
+//             break;
+//         }
+//         else
+//         {
+//             iterator = board[pos_i][pos_j];
+//         }
+//     }
+//     render();
+//     return true;
+// }
+
 int main()
 {
     render();
