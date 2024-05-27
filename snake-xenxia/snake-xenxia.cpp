@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <cstdlib>
+
 
 using namespace std;
 int board[11][11] = {{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},
@@ -89,7 +91,7 @@ void render()
     cout << endl;
 }
 
-bool move_snake(char move)
+int  move_snake(char move)
 {
     //'U' = up, 'D' = down , 'L' = left, 'R' = right
     int newhead = snake[0];
@@ -116,24 +118,24 @@ bool move_snake(char move)
         break;
 
     default:
-        return false;
+        return 0;
     }
 
     int new_head_i = newhead / 10;
     int new_head_j = newhead % 10;
 
-    if (board[new_head_i][new_head_j] == -1)
+    if (board[new_head_i][new_head_j] != 0 && board[new_head_i][new_head_j] != 999)
     {
         cout << "Oops, You collided. Game Over" << endl;
         render();
-        return false;
+        return -1;
     }
 
-    bool grow_flag = false;
+    int grow_flag = 0;
     if (board[new_head_i][new_head_j] == 999)
     {
         snake.push_back(0);
-        grow_flag = true;
+        grow_flag = 1;
     }
 
     int tail = snake[snake.size() - 1];
@@ -146,10 +148,10 @@ bool move_snake(char move)
     snake[0] = (new_head_i * 10) + new_head_j;
     place_snake();
 
-    if (grow_flag)
+    if (grow_flag == 1)
         place_berry();
 
-    return true;
+    return 1;
 }
 
 int main()
@@ -169,9 +171,11 @@ int main()
         string input;
         cout << "Enter : ";
         cin >> input;
-        bool status = move_snake(input.at(0));
-        if (status)
+        int status = move_snake(input.at(0));
+        if (status == 1)
             render();
+        else if(status == -1)
+            break;
         else
         {
             char cnf;
