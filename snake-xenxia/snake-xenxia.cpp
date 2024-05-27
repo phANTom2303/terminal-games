@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <random>
+
+
 using namespace std;
 int board[15][20] = {{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                      {-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1},
@@ -18,6 +21,25 @@ int board[15][20] = {{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
                      {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}};
 
 vector<int> snake = {33, 32, 31};
+
+void place_berry() {
+
+// AI Generated Code begins
+  random_device rd;  // obtain a random seed
+  mt19937 gen(rd()); // seed the random number generator
+  uniform_int_distribution<> dis_i(1, 13); // distribution for x (1-13)
+  uniform_int_distribution<> dis_j(1, 18); // distribution for y (1-18)
+  int i = dis_i(gen);
+  int j = dis_j(gen);
+// AI Generated code ends
+
+
+    if(board[i][j] == 0)
+        board[i][j] = 999;
+    else
+        place_berry();
+}
+
 
 void place_snake()
 {
@@ -103,7 +125,7 @@ bool move_snake(char move)
     int tail_j = tail % 10;
     board[tail_i][tail_j] = 0;
 
-    
+
     for(int i = snake.size() - 1; i > 0; i --)
         snake[i] = snake[i - 1];
     snake[0] = (new_head_i*10) + new_head_j;
