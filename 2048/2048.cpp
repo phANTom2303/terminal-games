@@ -9,16 +9,11 @@ vector<vector<int>> board = {{0, 0, 0, 0},
                              {2, 0, 2048, 0},
                              {0, 2, 0, 0}};
 
-string line = "";
 string topLine = " ┌──────┬──────┬──────┬──────┐";
 string midLine = " ├──────┼──────┼──────┼──────┤";
 string bottomLine = " └──────┴──────┴──────┴──────┘";
 
-void buildLine()
-{
-    for (int i = 1; i <= 31; i++)
-        line = line + "─";
-}
+
 string getNumberSpacing(int n)
 {
     string res = to_string(n);
@@ -48,7 +43,6 @@ void render()
 
 int main()
 {
-    buildLine();
     render();
     return 0;
 }
