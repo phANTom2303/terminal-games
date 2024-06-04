@@ -15,7 +15,6 @@ string topLine = " ┌──────┬──────┬─────�
 string midLine = " ├──────┼──────┼──────┼──────┤";
 string bottomLine = " └──────┴──────┴──────┴──────┘";
 
-
 string getNumberSpacing(int n)
 {
     string res = to_string(n);
@@ -23,6 +22,24 @@ string getNumberSpacing(int n)
     for (int i = 1; i <= 4 - len; i++)
         res = " " + res;
     return res;
+}
+
+void render()
+{
+    cout << topLine << endl;
+    for (int i = 0; i < 4; i++)
+    {
+        cout << " │ ";
+        for (int j = 0; j < 4; j++)
+        {
+            int element = board[i][j];
+            string num = (element == 0) ? "    " : getNumberSpacing(element);
+            cout << num << " │ ";
+        }
+        cout << endl
+             << ((i<3)?midLine:bottomLine) 
+             << endl;
+    }
 }
 
 void spawnNumber()
@@ -46,26 +63,6 @@ void spawnNumber()
     else
         spawnNumber();
     
-}
-
-
-void render()
-{
-
-    cout << topLine << endl;
-    for (int i = 0; i < 4; i++)
-    {
-        cout << " │ ";
-        for (int j = 0; j < 4; j++)
-        {
-            int element = board[i][j];
-            string num = (element == 0) ? "    " : getNumberSpacing(element);
-            cout << num << " │ ";
-        }
-        cout << endl
-             << ((i<3)?midLine:bottomLine) 
-             << endl;
-    }
 }
 
 int main()
