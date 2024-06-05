@@ -6,10 +6,10 @@
 
 using namespace std;
 
-vector<vector<int>> board = {{4, 2, 0, 2},
-                             {4, 2, 2, 2},
-                             {0, 2, 2, 0},
-                             {32, 2, 4, 8}};
+vector<vector<int>> board = {{0, 0, 0, 0},
+                             {0, 0, 0, 0},
+                             {0, 0, 0, 0},
+                             {0, 0, 0, 0}};
 
 string topLine = " ┌──────┬──────┬──────┬──────┐";
 string midLine = " ├──────┼──────┼──────┼──────┤";
@@ -119,10 +119,10 @@ void shiftUp()
         for (int i = 0; i < 4; i++)
         {
             int e = board[i][j];
-            if(e!=0)
+            if (e != 0)
             {
                 board[lastPos][j] = board[i][j];
-                if(lastPos != i)
+                if (lastPos != i)
                     board[i][j] = 0;
                 lastPos++;
             }
@@ -138,10 +138,10 @@ void shiftDown()
         for (int i = 3; i >= 0; i--)
         {
             int e = board[i][j];
-            if(e!=0)
+            if (e != 0)
             {
                 board[lastPos][j] = board[i][j];
-                if(lastPos != i)
+                if (lastPos != i)
                     board[i][j] = 0;
                 lastPos--;
             }
@@ -177,14 +177,70 @@ void mergeHorizontal()
         }
     }
 }
+
+bool exit_confirmation()
+{
+    string input;
+    cout << "Confirm exit ?(Press Enter to confirm)";
+    getline(cin, input);
+    if (input.empty())
+    {
+        cout << "Exited." << endl;
+        return false;
+    }
+    else
+        return true;
+}
+
+bool input()
+{
+    char inp;
+    cout << "Enter : ";
+    cin >> inp;
+    switch (inp)
+    {
+    case 'U':
+    case 'u':
+        shiftUp();
+        mergeVertical();
+        shiftUp();
+        break;
+
+    case 'D':
+    case 'd':
+        shiftDown();
+        mergeVertical();
+        shiftDown();
+        break;
+
+    case 'L':
+    case 'l':
+        shiftLeft();
+        mergeHorizontal();
+        shiftLeft();
+        break;
+
+    case 'R':
+    case 'r':
+        shiftRight();
+        mergeHorizontal();
+        shiftRight();
+        break;
+
+    default:
+        return exit_confirmation();
+    }
+    return true;
+}
 int main()
 {
-    render();
-    shiftDown();
-    render();
-    mergeVertical();
-    render();
-    shiftDown();
-    render();
-    return 0;
+
+    bool gameState = true;
+    while (gameState)
+    {
+
+        spawnNumber();
+        render();
+        gameState = input();
+    }
 }
