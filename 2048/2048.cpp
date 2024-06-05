@@ -148,7 +148,8 @@ void shiftDown()
         }
     }
 }
-void mergeVertical()
+
+void mergeUp()
 {
     for (int j = 0; j < 4; j++)
     {
@@ -163,7 +164,22 @@ void mergeVertical()
     }
 }
 
-void mergeHorizontal()
+void mergeDown()
+{
+    for (int j = 0; j < 4; j++)
+    {
+        for (int i = 3; i > 0; i--)
+        {
+            if (board[i][j] == board[i - 1][j])
+            {
+                board[i][j] *= 2;
+                board[i - 1][j] = 0;
+            }
+        }
+    }
+}
+
+void mergeLeft()
 {
     for (int i = 0; i < 4; i++)
     {
@@ -173,6 +189,21 @@ void mergeHorizontal()
             {
                 board[i][j] *= 2;
                 board[i][j + 1] = 0;
+            }
+        }
+    }
+}
+
+void mergeRight()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 3; j > 0; j--)
+        {
+            if (board[i][j] == board[i][j - 1])
+            {
+                board[i][j] *= 2;
+                board[i][j - 1] = 0;
             }
         }
     }
@@ -202,28 +233,28 @@ bool input()
     case 'U':
     case 'u':
         shiftUp();
-        mergeVertical();
+        mergeUp();
         shiftUp();
         break;
 
     case 'D':
     case 'd':
         shiftDown();
-        mergeVertical();
+        mergeDown();
         shiftDown();
         break;
 
     case 'L':
     case 'l':
         shiftLeft();
-        mergeHorizontal();
+        mergeLeft();
         shiftLeft();
         break;
 
     case 'R':
     case 'r':
         shiftRight();
-        mergeHorizontal();
+        mergeRight();
         shiftRight();
         break;
 
@@ -234,7 +265,13 @@ bool input()
 }
 int main()
 {
-
+    cout << "Welcome to 2048!" << endl
+         << "Controls are :" << endl
+         << " 'U' = Move Up" << endl
+         << " 'D' = Move Down" << endl
+         << " 'L' = Move Left" << endl
+         << " 'R' = Move Right" << endl
+         << "Enter Anything else to exit." << endl;
     bool gameState = true;
     while (gameState)
     {
