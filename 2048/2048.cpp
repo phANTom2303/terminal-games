@@ -7,8 +7,8 @@
 using namespace std;
 
 vector<vector<int>> board = {{4, 2, 0, 2},
+                             {4, 2, 2, 2},
                              {0, 2, 2, 0},
-                             {2, 2, 2, 2},
                              {32, 2, 4, 8}};
 
 string topLine = " ┌──────┬──────┬──────┬──────┐";
@@ -87,6 +87,82 @@ void shiftRight()
         board[i] = shiftRowRight(board[i]);
 }
 
+vector<int> shiftRowLeft(vector<int> &arr)
+{
+    int lastPos = 0;
+    for (int i = 0; i < 4; i++)
+    {
+        int e = arr[i];
+        if (e != 0)
+        {
+            arr[lastPos] = arr[i];
+            if (lastPos != i)
+                arr[i] = 0;
+            lastPos++;
+        }
+    }
+    return arr;
+}
+
+void shiftLeft()
+{
+    for (int i = 0; i < 4; i++)
+        board[i] = shiftRowLeft(board[i]);
+}
+
+void shiftUp()
+{
+
+    for (int j = 0; j < 4; j++)
+    {
+        int lastPos = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            int e = board[i][j];
+            if(e!=0)
+            {
+                board[lastPos][j] = board[i][j];
+                if(lastPos != i)
+                    board[i][j] = 0;
+                lastPos++;
+            }
+        }
+    }
+}
+
+void shiftDown()
+{
+    for (int j = 0; j < 4; j++)
+    {
+        int lastPos = 3;
+        for (int i = 3; i >= 0; i--)
+        {
+            int e = board[i][j];
+            if(e!=0)
+            {
+                board[lastPos][j] = board[i][j];
+                if(lastPos != i)
+                    board[i][j] = 0;
+                lastPos--;
+            }
+        }
+    }
+}
+void mergeVertical()
+{
+    for (int j = 0; j < 4; j++)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (board[i][j] == board[i + 1][j])
+            {
+                board[i][j] *= 2;
+                board[i + 1][j] = 0;
+            }
+        }
+    }
+}
+
 void mergeHorizontal()
 {
     for (int i = 0; i < 4; i++)
@@ -104,11 +180,11 @@ void mergeHorizontal()
 int main()
 {
     render();
-    shiftRight();
+    shiftDown();
     render();
-    mergeHorizontal();
+    mergeVertical();
     render();
-    shiftRight();
+    shiftDown();
     render();
     return 0;
 }
