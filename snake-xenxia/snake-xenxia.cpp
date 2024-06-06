@@ -3,9 +3,20 @@
 #include <random>
 #include <cstdlib>
 
-
 using namespace std;
-int board[11][11] = {{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},
+int board[11][11] = {{
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                     },
                      {-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1},
                      {-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1},
                      {-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1},
@@ -15,7 +26,19 @@ int board[11][11] = {{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,},
                      {-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1},
                      {-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1},
                      {-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1},
-                     {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,}};
+                     {
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                         -1,
+                     }};
 
 vector<int> snake = {33, 32, 31};
 
@@ -45,9 +68,23 @@ void place_snake()
 
     for (int i = 1; i < snake.size() - 1; i++)
     {
+        int prev_i = snake[i - 1] / 10;
+        int prev_j = snake[i - 1] % 10;
+
+        int next_i = snake[i + 1] / 10;
+        int next_j = snake[i + 1] % 10;
+
         int piece_i = snake[i] / 10;
         int piece_j = snake[i] % 10;
-        board[piece_i][piece_j] = 1;
+
+        if (prev_i == piece_i && piece_i == next_i)
+            board[piece_i][piece_j] = 1;
+        else if (prev_j == piece_j && piece_j == next_j)
+            board[piece_i][piece_j] = 2;
+        else if (prev_i + 1 == piece_i && piece_j + 1 == next_j)
+            board[piece_i][piece_j] = 3;
+        else
+            board[piece_i][piece_j] = 7;
     }
 
     int tail = snake[snake.size() - 1];
@@ -81,6 +118,12 @@ void render()
                 if (e == -99)
                     cout << "T";
                 if (e == 1)
+                    cout << "═";
+                if (e == 2)
+                    cout << "║";
+                if (e == 3)
+                    cout << "╚";
+                if (e == 7)
                     cout << "#";
                 if (e == 999)
                     cout << "0";
@@ -89,15 +132,15 @@ void render()
                 cout << ".";
             cout << " ";
         }
-        
+
         cout << endl;
     }
-    cout << bottomLine<<endl;
+    cout << bottomLine << endl;
     cout << "Score = " << (snake.size() - 3) << endl;
     cout << endl;
 }
 
-int  move_snake(char move)
+int move_snake(char move)
 {
     //'U' = up, 'D' = down , 'L' = left, 'R' = right
     int newhead = snake[0];
@@ -180,7 +223,7 @@ int main()
         int status = move_snake(input.at(0));
         if (status == 1)
             render();
-        else if(status == -1)
+        else if (status == -1)
             break;
         else
         {
