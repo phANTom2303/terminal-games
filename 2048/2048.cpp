@@ -15,6 +15,9 @@ string topLine = " ┌──────┬──────┬─────�
 string midLine = " ├──────┼──────┼──────┼──────┤";
 string bottomLine = " └──────┴──────┴──────┴──────┘";
 
+bool gameState = true;
+int freq = 0;
+
 string getNumberSpacing(int n)
 {
     string res = to_string(n);
@@ -23,9 +26,85 @@ string getNumberSpacing(int n)
         res = " " + res;
     return res;
 }
+void mergeUp()
+{
+    for (int j = 0; j < 4; j++)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (board[i][j] == board[i + 1][j])
+            {
+                board[i][j] *= 2;
+                board[i + 1][j] = 0;
+            }
+        }
+    }
+}
 
+void mergeDown()
+{
+    for (int j = 0; j < 4; j++)
+    {
+        for (int i = 3; i > 0; i--)
+        {
+            if (board[i][j] == board[i - 1][j])
+            {
+                board[i][j] *= 2;
+                board[i - 1][j] = 0;
+            }
+        }
+    }
+}
+
+void mergeLeft()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (board[i][j] == board[i][j + 1])
+            {
+                board[i][j] *= 2;
+                board[i][j + 1] = 0;
+            }
+        }
+    }
+}
+
+void mergeRight()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 3; j > 0; j--)
+        {
+            if (board[i][j] == board[i][j - 1])
+            {
+                board[i][j] *= 2;
+                board[i][j - 1] = 0;
+            }
+        }
+    }
+}
+
+void checkGameOver()
+{
+    vector<vector<int>> duplicate = board;
+    mergeDown();
+    mergeUp();
+    mergeLeft();
+    mergeRight();
+
+    if (duplicate == board)
+    {
+        cout << "Game Over";
+        gameState = false;
+    }
+    else
+        board = duplicate;
+}
 void render()
 {
+    freq = 0;
     cout << topLine << endl;
     for (int i = 0; i < 4; i++)
     {
@@ -33,6 +112,7 @@ void render()
         for (int j = 0; j < 4; j++)
         {
             int element = board[i][j];
+            freq += (element != 0) ? 1 : 0;
             string num = (element == 0) ? "    " : getNumberSpacing(element);
             cout << num << " │ ";
         }
@@ -40,6 +120,8 @@ void render()
              << ((i < 3) ? midLine : bottomLine)
              << endl;
     }
+    if (freq == 16)
+        checkGameOver();
 }
 
 void spawnNumber()
@@ -60,7 +142,7 @@ void spawnNumber()
         int num = (odds <= 9) ? 2 : 4;
         board[i][j] = num;
     }
-    else
+    else if(freq != 16)
         spawnNumber();
 }
 
@@ -149,72 +231,12 @@ void shiftDown()
     }
 }
 
-void mergeUp()
-{
-    for (int j = 0; j < 4; j++)
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            if (board[i][j] == board[i + 1][j])
-            {
-                board[i][j] *= 2;
-                board[i + 1][j] = 0;
-            }
-        }
-    }
-}
-
-void mergeDown()
-{
-    for (int j = 0; j < 4; j++)
-    {
-        for (int i = 3; i > 0; i--)
-        {
-            if (board[i][j] == board[i - 1][j])
-            {
-                board[i][j] *= 2;
-                board[i - 1][j] = 0;
-            }
-        }
-    }
-}
-
-void mergeLeft()
-{
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            if (board[i][j] == board[i][j + 1])
-            {
-                board[i][j] *= 2;
-                board[i][j + 1] = 0;
-            }
-        }
-    }
-}
-
-void mergeRight()
-{
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 3; j > 0; j--)
-        {
-            if (board[i][j] == board[i][j - 1])
-            {
-                board[i][j] *= 2;
-                board[i][j - 1] = 0;
-            }
-        }
-    }
-}
-
 bool exit_confirmation()
 {
-    string input;
-    cout << "Confirm exit ?(Press Enter to confirm)";
-    getline(cin, input);
-    if (input.empty())
+    char input;
+    cout << "Confirm exit ?(Y/N)";
+    cin >> input;
+    if (input == 'Y' || input == 'y')
     {
         cout << "Exited." << endl;
         return false;
@@ -272,7 +294,7 @@ int main()
          << " 'L' = Move Left" << endl
          << " 'R' = Move Right" << endl
          << "Enter Anything else to exit." << endl;
-    bool gameState = true;
+    gameState = true;
     while (gameState)
     {
 
