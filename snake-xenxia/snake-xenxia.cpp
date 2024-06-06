@@ -58,8 +58,11 @@ void place_snake()
 
 void render()
 {
+    string topLine = "┌───────────────────┐";
+    string bottomLine = "└───────────────────┘";
+    cout << topLine;
     cout << endl;
-    for (int i = 0; i < 11; i++)
+    for (int i = 1; i < 10; i++)
     {
         for (int j = 0; j < 11; j++)
         {
@@ -69,7 +72,7 @@ void render()
                 if (i == 0 || i == 10)
                     cout << "-";
                 else
-                    cout << "|";
+                    cout << "│";
             }
             else if (e != 0 && e != -1)
             {
@@ -86,8 +89,10 @@ void render()
                 cout << ".";
             cout << " ";
         }
+        
         cout << endl;
     }
+    cout << bottomLine<<endl;
     cout << "Score = " << (snake.size() - 3) << endl;
     cout << endl;
 }
