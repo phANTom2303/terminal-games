@@ -2,6 +2,8 @@
 #include <vector>
 #include <random>
 #include <cstdlib>
+#include <deque>
+#include <bits/stdc++.h>
 
 using namespace std;
 int board[11][11] = {{
@@ -40,7 +42,7 @@ int board[11][11] = {{
                          -1,
                      }};
 
-vector<int> snake = {33, 32, 31};
+deque<int> snake = {33, 32, 31};
 
 void place_berry()
 {
@@ -181,20 +183,20 @@ int move_snake(char move)
     }
 
     int grow_flag = 0;
+    snake.push_front((new_head_i * 10) + new_head_j);
     if (board[new_head_i][new_head_j] == 999)
     {
-        snake.push_back(0);
         grow_flag = 1;
     }
+    else
+    {
+        int tail = snake[snake.size() - 1];
+        int tail_i = tail / 10;
+        int tail_j = tail % 10;
+        board[tail_i][tail_j] = 0;
+        snake.pop_back();
+    }
 
-    int tail = snake[snake.size() - 1];
-    int tail_i = tail / 10;
-    int tail_j = tail % 10;
-    board[tail_i][tail_j] = 0;
-
-    for (int i = snake.size() - 1; i > 0; i--)
-        snake[i] = snake[i - 1];
-    snake[0] = (new_head_i * 10) + new_head_j;
     place_snake();
 
     if (grow_flag == 1)
