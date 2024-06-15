@@ -1,6 +1,12 @@
 #include <iostream>
 using namespace std;
 int arr[3][3];
+
+int row_buffer[3] = {0};
+int col_buffer[3] = {0};
+int diag1_buffer = 0;
+int diag2_buffer = 0;
+
 void render()
 {
     for (int i = 0; i < 3; i++)
@@ -21,21 +27,19 @@ void render()
     }
 }
 
-int check(int arr[][3], int r, int c)
+int check(int turn, int r, int c)
 {
-    int rsum = 0, csum = 0, d1 = 0, d2 = 0;
-    for (int i = 0; i < 3; i++)
-    {
-        rsum += arr[r][i];
-        csum += arr[i][c];
-        d1 += arr[i][i];
-        d2 += arr[i][2 - i];
-    }
-    if (rsum == -3 || csum == -3 || d1 == -3 || d2 == -3)
-        return -1;
-    else if (rsum == 3 || csum == 3 || d1 == 3 || d2 == 3)
-        return 1;
-    else
+    row_buffer[r] += turn;
+    col_buffer[c] += turn;
+    if(r==c)
+        diag1_buffer += turn;
+    if(r+c == 2)
+        diag2_buffer += turn;
+
+    int temp = 3*turn;
+    if(row_buffer[r] == temp || col_buffer[c] == temp || diag1_buffer == temp || diag2_buffer == temp )
+        return turn;
+    else    
         return 0;
 }
 
@@ -77,7 +81,7 @@ int main()
         {
             arr[r][c] = turn;
             render();
-            int res = check(arr, r, c);
+            int res = check(turn, r, c);
             if (res != 0)
             {
                 cout << ((res == 1) ? "X" : "O") << " wins" << endl;
