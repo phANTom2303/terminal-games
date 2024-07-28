@@ -12,15 +12,15 @@ void render()
     cout << endl;
     for (int i = 0; i < 6; i++)
     {
-        cout << " | ";
+        cout << " │ ";
         for (int j = 0; j < 7; j++)
         {
             if (board[i][j] == 1)
-                cout << "R | ";
+                cout << "\033[31mR\033[0m │ ";
             else if (board[i][j] == -1)
-                cout << "Y | ";
+                cout << "\033[33mY\033[0m │ ";
             else
-                cout << "_ | ";
+                cout << "_ │ ";
         }
         cout << endl;
     }
@@ -152,7 +152,7 @@ int right_diagonal_freq(int row, int col)
 
 bool checkWin(int row, int col)
 {
-    col = col - 1;//since user input is 1 based indexing, we need to subtract 1
+    col = col - 1; // since user input is 1 based indexing, we need to subtract 1
     int row_count = row_freq(row, col);
     int col_count = col_freq(row, col);
     int left_diag_count = left_diagonal_freq(row, col);
