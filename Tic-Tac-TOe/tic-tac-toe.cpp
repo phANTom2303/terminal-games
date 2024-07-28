@@ -9,6 +9,7 @@ int diag2_buffer = 0;
 
 void render()
 {
+    cout << endl;
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
@@ -17,13 +18,13 @@ void render()
             int e = arr[i][j];
             if (e == 0)
                 c = ' ';
-            else if (e == -1)
+            else if (e == 10)
                 c = 'O';
             else
                 c = 'X';
-            cout << c << ((j < 2) ? " | " : "");
+            cout << c << ((j < 2) ? " │ " : "");
         }
-        cout << endl;
+        cout << endl << ((i < 2) ? "──┼───┼──" : "") << endl;
     }
 }
 
