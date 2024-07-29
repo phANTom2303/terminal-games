@@ -1,36 +1,19 @@
 
-function render(textBox, delay) {
+function render(component) {
     let i = 0;
-    const description = textBox.textContent;
+    const html = component.innerHTML;
     function iterate() {
-        textBox.textContent = description.slice(0, i + 1);
+        component.innerHTML = html.slice(0, i + 1);
         i++;
-
-        if (i < description.length) {
-            setTimeout(iterate, delay);
+        if (i < html.length) {
+            setTimeout(iterate, 1);
         }
     }
-
     iterate();
 }
 
-let header = document.querySelector(".header");
-render(header, 60);
-
-let cards = document.querySelectorAll(".card-description");
-
+let cards = document.querySelectorAll(".card");
 for (let card of cards) {
-    render(card, 15);
+    render(card);
 }
 
-let cardHeaders = document.querySelectorAll(".card-header");
-
-for (let cHead of cardHeaders) {
-    render(cHead, 60);
-}
-
-let links = document.querySelectorAll("a");
-
-for(let link of links){
-    render(link,100);
-}
