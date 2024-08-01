@@ -7,9 +7,6 @@ const char cruiser = 'C';
 const char submarine = 'S';
 const char destroyer = 'D';
 
-int board1[10][10] = {0};
-int board2[10][10] = {0};
-
 struct player {
     int board[10][10] = {0};
     int totalShips = 5;
@@ -70,32 +67,43 @@ string getShipName(char ship)
 
 
 
-void render()
-{
-    cout << endl;
-    for (int i = 0; i < 10; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-            if (board1[i][j] == 0)
-                cout << "O ";
-            else if (board1[i][j] == 1)
-                cout << "\033[31mC\033[0m ";
-            else if (board1[i][j] == 2)
-                cout << "\033[32mA\033[0m ";
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
+// void render()
+// {
+//     cout << endl;
+//     for (int i = 0; i < 10; i++)
+//     {
+//         for (int j = 0; j < 10; j++)
+//         {
+//             if (board1[i][j] == 0)
+//                 cout << "O ";
+//             else if (board1[i][j] == 1)
+//                 cout << "\033[31mC\033[0m ";
+//             else if (board1[i][j] == 2)
+//                 cout << "\033[32mA\033[0m ";
+//         }
+//         cout << endl;
+//     }
+//     cout << endl;
+// }
 
-void setUpShip(char ship)
+void setUpShip(char ship, int p)
 {
     string shipName = getShipName(ship);
     int shipLen = getShipLength(ship);
 
+    int xi, yi;
+    cout << "Enter initial X and Y coords : ";
+    cin >> xi >> yi;
 
+    cout << "Entered Position :  ( " << xi << " , " << yi << " )" << endl;
+    cout << "Available Postions : " << endl;
 
+    int total = 0;
+    
+    for(int i = 0; i  < shipLen;  i ++)
+    {
+        
+    }
 }
 
 
