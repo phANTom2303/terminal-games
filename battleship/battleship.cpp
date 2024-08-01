@@ -1,6 +1,55 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+const char carrier = 'A'; 
+const char battleship = 'B';
+const char cruiser = 'C';
+const char submarine = 'S';
+const char destroyer = 'D';
+
+int getShipLength(char ship)
+{
+    switch(ship)
+    {
+        case 'A':
+        return 5;
+
+        case 'B':
+        return 4;
+
+        case 'C':
+        return 3;
+
+        case 'S':
+        return 3;
+
+        case 'D':
+        return 2;
+    }
+}
+
+string getShipName(char ship)
+{
+    switch(ship)
+    {
+        case 'A':
+        return "Aircraft Carrier";
+
+        case 'B':
+        return "Battleship";
+
+        case 'C':
+        return "Cruiser";
+
+        case 'S':
+        return "Submarine";
+
+        case 'D':
+        return "Destroyer";
+    }
+}
+
+
 int arr[10][10] = {0};
 void render()
 {
