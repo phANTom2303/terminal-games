@@ -141,15 +141,39 @@ void setupCarrier(int player)
   }
 
   p[player].board[initialX][initialY] = 1;
-  
-  if (initialX + 4 < 10)
-    p[player].board[initialX + 4][initialY] = 2;
-  if (initialX - 4 >= 0)
-    p[player].board[initialX - 4][initialY] = 2;
-  if (initialY + 4 < 10)
-    p[player].board[initialX][initialY + 4] = 2;
-  if (initialY - 4 >= 0)
-    p[player].board[initialX][initialY - 4] = 2;
+
+  int verticalMovement[] = {-1, 0, 1, 0};
+  int horizontalMovement[] = {0, 1, 0, -1};
+  int direction = 0; // 0 -> top 1 -> right 2 -> bottom 3 -> left
+
+  vector<int> directions;
+  if (initialY - 4 >= 0) // top
+    directions.push_back(0);
+  if (initialX + 4 < 10) // right
+    directions.push_back(1);
+  if (initialY + 4 < 10) // bottom
+    directions.push_back(2);
+  if (initialX - 4 >= 0) // left
+    directions.push_back(3);
+
+  for (int j = 0; j < directions.size(); j++)
+  {
+    direction = directions[j];
+    flag = true;
+    for (int i = 1; i < 5; i++)
+    {
+      int x_coord = initialX + (i * verticalMovement[direction]);
+      int y_coord = initialY + (i * horizontalMovement[direction]);
+      if (p[player].board[x_coord][y_coord] != 0)
+      {
+        flag = false;
+        break;
+      }
+    }
+
+    if (flag)
+      p[player].board[initialX + 4][initialY] = 2;
+  }
 
   cout << "chosen spot : " << initialX << " " << initialY;
   cout << "available spots " << endl;
@@ -164,10 +188,6 @@ void setupCarrier(int player)
     if (!flag)
       cout << "Invalid Input, enter again " << endl;
   }
-
-  int verticalMovement[] = {-1, 0, 1, 0};
-  int horizontalMovement[] = {0, 1, 0, -1};
-  int direction = 0; // 0 -> top 1 -> right 2 -> bottom 3 -> left
 
   // horizontal movement
   if (initialX == finalX)
@@ -190,9 +210,9 @@ void setupCarrier(int player)
 
   for (int i = 0; i < 5; i++)
   {
-    int x_cord = initialX + (i * verticalMovement[direction]);
-    int y_cord = initialY + (i * horizontalMovement[direction]);
-    p[player].board[x_cord][y_cord] = 10;
+    int x_coord = initialX + (i * verticalMovement[direction]);
+    int y_coord = initialY + (i * horizontalMovement[direction]);
+    p[player].board[x_coord][y_coord] = 10;
   }
   clearBoard(player);
   renderBoard(player);
