@@ -75,7 +75,7 @@ string getShipName(char ship)
   return "No Ship";
 }
 
-void render(int player)
+void renderBoard(int player)
 {
   cout << endl;
   for (int i = 0; i < 10; i++)
@@ -96,7 +96,7 @@ void render(int player)
   cout << endl;
 }
 
-void cleanUp(int player)
+void clearBoard(int player)
 {
   for (int i = 0; i < 10; i++)
   {
@@ -108,82 +108,94 @@ void cleanUp(int player)
   }
 }
 
-void setUpShip(char ship, int p)
-{
-  string shipName = getShipName(ship);
-  int shipLen = getShipLength(ship);
+// void setUpShip(char ship, int p)
+// {
+//   string shipName = getShipName(ship);
+//   int shipLen = getShipLength(ship);
 
-  int xi, yi;
-  cout << "Enter initial X and Y coords : ";
-  cin >> xi >> yi;
+//   int initialX, initialY;
+//   cout << "Enter initial X and Y coords : ";
+//   cin >> initialX >> initialY;
 
-  cout << "Entered Position :  ( " << xi << " , " << yi << " )" << endl;
-  cout << "Available Postions : " << endl;
+//   cout << "Entered Position :  ( " << initialX << " , " << initialY << " )" << endl;
+//   cout << "Available Postions : " << endl;
 
-  int total = 0;
+//   int total = 0;
 
-  for (int i = 0; i < shipLen; i++)
-  {
-  }
-}
+//   for (int i = 0; i < shipLen; i++)
+//   {
+//   }
+// }
 
 void setupCarrier(int player)
 {
-  int xi, yi, xf, yf;
+  int initialX, initialY, finalX, finalY;
   bool flag = false;
   while (!flag)
   {
     cout << "Enter position of one end of your ship : ";
-    cin >> xi >> yi;
-    flag = validateIndices(xi, yi);
+    cin >> initialX >> initialY;
+    flag = validateIndices(initialX, initialY);
     if (!flag)
       cout << "Invalid Input, enter again " << endl;
   }
 
-  p[player].board[xi][yi] = 1;
-  if (xi + 4 < 10)
-    p[player].board[xi + 4][yi] = 2;
-  if (xi - 4 >= 0)
-    p[player].board[xi - 4][yi] = 2;
-  if (yi + 4 < 10)
-    p[player].board[xi][yi + 4] = 2;
-  if (yi - 4 >= 0)
-    p[player].board[xi][yi - 4] = 2;
+  p[player].board[initialX][initialY] = 1;
+  
+  if (initialX + 4 < 10)
+    p[player].board[initialX + 4][initialY] = 2;
+  if (initialX - 4 >= 0)
+    p[player].board[initialX - 4][initialY] = 2;
+  if (initialY + 4 < 10)
+    p[player].board[initialX][initialY + 4] = 2;
+  if (initialY - 4 >= 0)
+    p[player].board[initialX][initialY - 4] = 2;
 
-  cout << "chosen spot : " << xi << " " << yi;
+  cout << "chosen spot : " << initialX << " " << initialY;
   cout << "available spots " << endl;
-  render(player);
+  renderBoard(player);
 
   flag = false;
   while (!flag)
   {
     cout << "Enter your choice : ";
-    cin >> xf >> yf;
-    flag = validateIndices(xf, yf);
+    cin >> finalX >> finalY;
+    flag = validateIndices(finalX, finalY);
     if (!flag)
       cout << "Invalid Input, enter again " << endl;
   }
 
-  if (xi == xf)
+  int verticalMovement[] = {-1, 0, 1, 0};
+  int horizontalMovement[] = {0, 1, 0, -1};
+  int direction = 0; // 0 -> top 1 -> right 2 -> bottom 3 -> left
+
+  // horizontal movement
+  if (initialX == finalX)
   {
-    if (yi < yf)
-      for (int i = yi; i <= yf; i++)
-        p[player].board[xi][i] = 10;
-    else
-      for (int i = yf; i >= yi; i--)
-        p[player].board[xi][i] = 10;
+    cout << "horizontal" << endl;
+    if (finalY < initialY)
+      // left
+      direction = 3;
+    else // right
+      direction = 1;
   }
   else
   {
-    if (xi < xf)
-      for (int i = xi; i <= xf; i++)
-        p[player].board[i][yi] = 10;
-    else
-      for (int i = xf; i >= xi; i--)
-        p[player].board[i][yi] = 10;
+    cout << "vertical" << endl;
+    if (finalX < initialX) // up
+      direction = 0;
+    else // down
+      direction = 2;
   }
-  cleanUp(player);
-  render(player);
+
+  for (int i = 0; i < 5; i++)
+  {
+    int x_cord = initialX + (i * verticalMovement[direction]);
+    int y_cord = initialY + (i * horizontalMovement[direction]);
+    p[player].board[x_cord][y_cord] = 10;
+  }
+  clearBoard(player);
+  renderBoard(player);
 }
 
 int main()
