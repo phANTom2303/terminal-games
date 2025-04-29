@@ -1,26 +1,31 @@
-
 function renderComponent(component, delay) {
-    let i = 0;
-    const html = component.innerHTML;
-    function iterate() {
-        component.innerHTML = html.slice(0, i + 1);
-        i++;
-        if (i < html.length) {
-            setTimeout(iterate, delay);
-        }
+  let i = 0;
+  const html = component.innerHTML;
+  function iterate() {
+    component.innerHTML = html.slice(0, i + 1);
+    i++;
+    if (i < html.length) {
+      setTimeout(iterate, delay);
     }
-    iterate();
+  }
+  iterate();
 }
 
 function render() {
-    let header = document.querySelector(".header");
-    renderComponent(header, 50);
-    let cards = document.querySelectorAll(".card");
-    for (let card of cards) {
-        renderComponent(card, 1);
-    }
-    let footer = document.querySelector(".footer");
-    renderComponent(footer, 15);
+  let header = document.querySelector(".heading-text");
+  renderComponent(header, 50);
+  let cards = document.querySelectorAll(".card");
+  for (let card of cards) {
+    renderComponent(card, 1);
+  }
+  let footer = document.querySelector(".footer");
+  renderComponent(footer, 15);
 }
 
 render();
+
+document.querySelector(".theme-switch").addEventListener("click", () => {
+  const rootElement = document.documentElement;
+  const newTheme = rootElement.className === "dark" ? "light" : "dark";
+  rootElement.className = newTheme;
+});
