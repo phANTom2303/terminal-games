@@ -28,4 +28,20 @@ document.querySelector(".theme-switch").addEventListener("click", () => {
   const rootElement = document.documentElement;
   const newTheme = rootElement.className === "dark" ? "light" : "dark";
   rootElement.className = newTheme;
+
+  // Get the theme switch image element
+  const themeIcon = document.querySelector(".theme-switch");
+
+  // Change the image source based on the new theme
+  if (themeIcon) {
+    if (newTheme === "light") {
+      themeIcon.src =
+        "web-files/assets/dark_mode_50dp_333333_FILL0_wght400_GRAD0_opsz48.png"; // Icon to switch to dark mode
+      themeIcon.alt = "Switch to Dark Mode";
+    } else {
+      themeIcon.src =
+        "./web-files/assets/light_mode_50dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png";
+      themeIcon.alt = "Switch to Light Mode";
+    }
+  }
 });
